@@ -18,14 +18,17 @@ const main = async () => {
   const db = { newUrls: [], oldUrls: allUrls, users: dbOld.users };
 
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
     const page = await browser.newPage();
 
     await page.setUserAgent(
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
     );
     console.log(1);
-    await page.goto(URL, { waitUntil: "networkidle2", timeout: 60000 });
+    await page.goto(URL, { waitUntil: "networkidle2", timeout: 150000 });
     console.log(2);
 
     const html = await page.content();
